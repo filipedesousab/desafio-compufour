@@ -12,5 +12,10 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+  return 'Teste CompuFour';
+});
+
+$router->group(['prefix' => 'movies'], function () use ($router) {
+  $router->get('upcoming',  ['uses' => 'MovieController@getUpcoming']);
+  $router->get('upcoming/{page}',  ['uses' => 'MovieController@getUpcomingByPage']);
 });
