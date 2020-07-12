@@ -18,4 +18,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'movies'], function () use ($router) {
   $router->get('upcoming',  ['uses' => 'MovieController@getUpcoming']);
   $router->get('upcoming/{page}',  ['uses' => 'MovieController@getUpcomingByPage']);
+
+  $router->get('toprated', ['uses' => 'MovieController@getTopRated']);
+  $router->get('toprated/{page}', ['uses' => 'MovieController@getTopRatedByPage']);
 });
