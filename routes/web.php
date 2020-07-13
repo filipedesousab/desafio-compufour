@@ -21,4 +21,7 @@ $router->group(['prefix' => 'movies'], function () use ($router) {
 
   $router->get('toprated', ['uses' => 'MovieController@getTopRated']);
   $router->get('toprated/{page}', ['uses' => 'MovieController@getTopRatedByPage']);
+
+  $router->get('/{id}', ['uses' => 'MovieController@getMovie']);
+  $router->get('/{id}/videos', ['uses' => 'MovieController@getMovieVideos']);
 });

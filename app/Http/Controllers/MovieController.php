@@ -25,4 +25,14 @@ class MovieController extends Controller
   {
       return response()->json(TMDbServiceProvider::getTopRated($page));
   }
+
+  public function getMovie($id)
+  {
+      return response()->json(TMDbServiceProvider::getMovie($id));
+  }
+
+  public function getMovieVideos($id)
+  {
+      return response()->json(TMDbServiceProvider::getMovieVideos($id));
+  }
 }
