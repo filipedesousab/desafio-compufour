@@ -12,6 +12,9 @@ use App\Entities\SpokenLanguages;
 
 class TMDbServiceProvider extends ServiceProvider
 {
+  private static $url = 'https://api.themoviedb.org/3/';
+  private static $apiKey = '1f54bd990f1cdfb230adb312546d765d';
+
   public static function getUpcoming($page)
   {
     $movies = [];
@@ -131,15 +134,24 @@ class TMDbServiceProvider extends ServiceProvider
 
   public static function getGenres($id = null)
   {
-    $genres = [
-      new Genre(),
-      new Genre(1, 'Action'),
-      new Genre(2, 'Adventure'),
-      new Genre(3, 'Comedy')
-    ];
+    $url = TMDbServiceProvider::getUrl('genre/movie/list');
+    $json = file_get_contents($url);
 
-    if ($id) {
-      return $genres[$id]->toArray();
+    $genres = Genre::getInstanceArrayByJson($json);
+
+    if (!empty($id)) {
+      $genreFiltered = array_filter(
+        $genres,
+        function ($genre) use ($id) {
+          return intval($genre->getId()) === intval($id);
+        }
+      );
+
+      $genreFiltered = array_values($genreFiltered);
+
+      $genre = !empty($genreFiltered) ? $genreFiltered[0]->toArray() : [];
+
+      return $genre;
     }
 
     return array_map(
@@ -148,5 +160,13 @@ class TMDbServiceProvider extends ServiceProvider
       },
       $genres
     );
+  }
+
+  private static function getUrl($req)
+  {
+    $url = TMDbServiceProvider::$url;
+    $apiKey = TMDbServiceProvider::$apiKey;
+
+    return $url . $req . '?api_key=' . $apiKey . '&language=en-US';
   }
 }

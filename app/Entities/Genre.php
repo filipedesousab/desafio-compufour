@@ -35,6 +35,20 @@ class Genre
     return $this->name;
   }
 
+  public static function getInstanceArrayByJson($json)
+  {
+    $arr = json_decode($json, true);
+    $values = [];
+
+    if (is_array($arr['genres'])) {
+      foreach ($arr['genres'] as $genre) {
+        array_push($values, new Genre($genre['id'], $genre['name']));
+      }
+    }
+
+    return $values;
+  }
+
   public function toArray()
   {
     $arr = [
