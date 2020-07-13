@@ -128,4 +128,25 @@ class TMDbServiceProvider extends ServiceProvider
 
     return [$video->toArray()];
   }
+
+  public static function getGenres($id = null)
+  {
+    $genres = [
+      new Genre(),
+      new Genre(1, 'Action'),
+      new Genre(2, 'Adventure'),
+      new Genre(3, 'Comedy')
+    ];
+
+    if ($id) {
+      return $genres[$id]->toArray();
+    }
+
+    return array_map(
+      function ($object) {
+        return $object->toArray();
+      },
+      $genres
+    );
+  }
 }

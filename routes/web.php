@@ -25,3 +25,8 @@ $router->group(['prefix' => 'movies'], function () use ($router) {
   $router->get('/{id}', ['uses' => 'MovieController@getMovie']);
   $router->get('/{id}/videos', ['uses' => 'MovieController@getMovieVideos']);
 });
+
+$router->group(['prefix' => 'genres'], function () use ($router) {
+  $router->get('/', ['uses' => 'GenreController@getGenres']);
+  $router->get('/{id}', ['uses' => 'GenreController@getGenres']);
+});

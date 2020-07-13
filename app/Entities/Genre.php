@@ -7,7 +7,7 @@ class Genre
   protected $id;
   protected $name;
 
-  public function __construct($id, $name = null)
+  public function __construct($id = null, $name = null)
   {
     $this->setId($id);
     $this->setName($name);
