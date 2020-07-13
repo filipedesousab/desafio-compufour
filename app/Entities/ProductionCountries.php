@@ -35,7 +35,8 @@ class ProductionCountries
     return $this->name;
   }
 
-  public function toArray() {
+  public function toArray()
+  {
     $arr = [
       'id' => $this->getIso31661(),
       'name' => $this->getName()

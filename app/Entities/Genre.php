@@ -35,7 +35,8 @@ class Genre
     return $this->name;
   }
 
-  public function toArray() {
+  public function toArray()
+  {
     $arr = [
       'id' => $this->getId(),
       'name' => $this->getName()

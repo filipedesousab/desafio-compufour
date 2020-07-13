@@ -35,7 +35,8 @@ class SpokenLanguages
     return $this->name;
   }
 
-  public function toArray() {
+  public function toArray()
+  {
     $arr = [
       'iso_639_1' => $this->getIso6391(),
       'name' => $this->getName()

@@ -101,7 +101,8 @@ class Video
     return $this->type;
   }
 
-  public function toArray() {
+  public function toArray()
+  {
     return [
       'id' => $this->getId(),
       'iso_639_1' => $this->getIso6391(),

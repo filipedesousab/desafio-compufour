@@ -337,7 +337,8 @@ class Movie
     );
   }
 
-  public function toArray() {
+  public function toArray()
+  {
     $arr = [
       'poster_path' => $this->getPosterPath(),
       'adult' => $this->getAdult(),

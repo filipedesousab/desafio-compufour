@@ -61,7 +61,8 @@ class ProductionCompanie
     return $this->originCountry;
   }
 
-  public function toArray() {
+  public function toArray()
+  {
     $arr = [
       'id' => $this->getId(),
       'logo_path' => $this->getLogoPath(),
