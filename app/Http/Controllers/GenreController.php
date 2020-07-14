@@ -14,9 +14,4 @@ class GenreController extends Controller
 
     return $this->responseJson($genres);
   }
-
-  public function responseInvalideRoute()
-  {
-    return response()->json(['message' => 'The resource you requested could not be found.'], 404);
-  }
 }
