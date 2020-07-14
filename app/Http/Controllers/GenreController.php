@@ -10,6 +10,13 @@ class GenreController extends Controller
 {
   public function getGenres($id = null)
   {
-    return response()->json(TMDbServiceProvider::getGenres($id));
+    $genres = TMDbServiceProvider::getGenres($id);
+
+    return $this->responseJson($genres);
+  }
+
+  public function responseInvalideRoute()
+  {
+    return response()->json(['message' => 'The resource you requested could not be found.'], 404);
   }
 }

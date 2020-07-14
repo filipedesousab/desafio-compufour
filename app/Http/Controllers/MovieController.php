@@ -8,31 +8,43 @@ class MovieController extends Controller
 {
   public function getUpcoming()
   {
-    return response()->json(TMDbServiceProvider::getUpcoming('1'));
+    $upcoming = TMDbServiceProvider::getUpcoming('1');
+
+    return $this->responseJson($upcoming);
   }
 
   public function getUpcomingByPage($page)
   {
-    return response()->json(TMDbServiceProvider::getUpcoming($page));
+    $upcoming = TMDbServiceProvider::getUpcoming($page);
+
+    return $this->responseJson($upcoming);
   }
 
   public function getTopRated()
   {
-    return response()->json(TMDbServiceProvider::getTopRated('1'));
+    $topRated = TMDbServiceProvider::getTopRated('1');
+
+    return $this->responseJson($topRated);
   }
 
   public function getTopRatedByPage($page)
   {
-    return response()->json(TMDbServiceProvider::getTopRated($page));
+    $topRated = TMDbServiceProvider::getTopRated($page);
+
+    return $this->responseJson($topRated);
   }
 
   public function getMovie($id)
   {
-    return response()->json(TMDbServiceProvider::getMovie($id));
+    $movie = TMDbServiceProvider::getMovie($id);
+
+    return $this->responseJson($movie);
   }
 
   public function getMovieVideos($id)
   {
-    return response()->json(TMDbServiceProvider::getMovieVideos($id));
+    $videos = TMDbServiceProvider::getMovieVideos($id);
+
+    return $this->responseJson($videos);
   }
 }

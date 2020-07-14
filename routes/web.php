@@ -11,10 +11,6 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-  return 'Teste CompuFour';
-});
-
 $router->group(['prefix' => 'movies'], function () use ($router) {
   $router->get('upcoming',  ['uses' => 'MovieController@getUpcoming']);
   $router->get('upcoming/{page}',  ['uses' => 'MovieController@getUpcomingByPage']);
@@ -29,4 +25,13 @@ $router->group(['prefix' => 'movies'], function () use ($router) {
 $router->group(['prefix' => 'genres'], function () use ($router) {
   $router->get('/', ['uses' => 'GenreController@getGenres']);
   $router->get('/{id}', ['uses' => 'GenreController@getGenres']);
+});
+
+$router->group(['prefix' => '/'], function () use ($router) {
+  $router->get('/{route:.*}', ['uses' => 'Controller@responseInvalideRoute']);
+  $router->post('/{route:.*}', ['uses' => 'Controller@responseInvalideRoute']);
+  $router->put('/{route:.*}', ['uses' => 'Controller@responseInvalideRoute']);
+  $router->patch('/{route:.*}', ['uses' => 'Controller@responseInvalideRoute']);
+  $router->delete('/{route:.*}', ['uses' => 'Controller@responseInvalideRoute']);
+  $router->options('/{route:.*}', ['uses' => 'Controller@responseInvalideRoute']);
 });
