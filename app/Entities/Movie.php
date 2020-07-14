@@ -337,6 +337,72 @@ class Movie
     );
   }
 
+  public static function getInstanceByJson($json)
+  {
+    $arr = json_decode($json, true);
+
+    if (!empty($arr)) {
+      $genres = array_map(
+        function ($genre) {
+          return new Genre($genre['id'], $genre['name']);
+        },
+        $arr['genres']
+      );
+
+      $productionCompanies = array_map(
+        function ($productionCompany) {
+          return new ProductionCompanie($productionCompany);
+        },
+        $arr['production_companies']
+      );
+
+      $productionCountries = array_map(
+        function ($productionCountry) {
+          return new ProductionCountry($productionCountry);
+        },
+        $arr['production_countries']
+      );
+
+      $spokenLanguages = array_map(
+        function ($spokenLanguage) {
+          return new SpokenLanguage($spokenLanguage['iso_639_1'], $spokenLanguage['name']);
+        },
+        $arr['spoken_languages']
+      );
+
+      $movie = new Movie();
+      $movie->setPosterPath($arr['poster_path']);
+      $movie->setAdult($arr['adult']);
+      $movie->setOverview($arr['overview']);
+      $movie->setReleaseDate($arr['release_date']);
+      $movie->setGenres($genres);
+      $movie->setId($arr['id']);
+      $movie->setOriginalTitle($arr['original_title']);
+      $movie->setOriginalLanguage($arr['original_language']);
+      $movie->setTitle($arr['title']);
+      $movie->setBackdropPath($arr['backdrop_path']);
+      $movie->setPopularity($arr['popularity']);
+      $movie->setVoteCount($arr['vote_count']);
+      $movie->setVideo($arr['video']);
+      $movie->setVoteAverage($arr['vote_average']);
+      $movie->setBelongsToCollection($arr['belongs_to_collection']);
+      $movie->setBudget($arr['budget']);
+      $movie->setHomepage($arr['homepage']);
+      $movie->setImdbId($arr['imdb_id']);
+      $movie->setProductionCompanies($productionCompanies);
+      $movie->setProductionCountries($productionCountries);
+      $movie->setRevenue($arr['revenue']);
+      $movie->setRuntime($arr['runtime']);
+      $movie->setSpokenLanguages($spokenLanguages);
+      $movie->setStatus($arr['status']);
+      $movie->setTagline($arr['tagline']);
+
+      return $movie;
+    }
+
+    return false;
+  }
+
   public function toArray()
   {
     $arr = [

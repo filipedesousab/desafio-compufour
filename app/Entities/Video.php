@@ -101,6 +101,30 @@ class Video
     return $this->type;
   }
 
+  public static function getInstanceArrayByJson($json)
+  {
+    $arr = json_decode($json, true);
+    $values = [];
+
+    if (!empty($arr['results']) && is_array($arr['results'])) {
+      foreach ($arr['results'] as $video) {
+        $videoInstance = new Video();
+        $videoInstance->setId($video['id']);
+        $videoInstance->setIso6391($video['iso_639_1']);
+        $videoInstance->setIso31661($video['iso_3166_1']);
+        $videoInstance->setKey($video['key']);
+        $videoInstance->setName($video['name']);
+        $videoInstance->setSite($video['site']);
+        $videoInstance->setSize($video['size']);
+        $videoInstance->setType($video['type']);
+
+        array_push($values, $videoInstance);
+      }
+    }
+
+    return $values;
+  }
+
   public function toArray()
   {
     return [

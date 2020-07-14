@@ -75,61 +75,35 @@ class TMDbServiceProvider extends ServiceProvider
 
   public static function getMovie($id)
   {
-    $movie = new Movie();
-    $movie->setPosterPath('/path/to/poster');
-    $movie->setOverview('Lorem Ipsum is simply dummy text of the printing and typesetting industry...');
-    $movie->setReleaseDate('2020-07-12');
-    $movie->setGenres([
-      new Genre(1, 'Teste Genre 1')
-    ]);
-    $movie->setId(1);
-    $movie->setOriginalTitle('Test Movie with id ' . $id);
-    $movie->setOriginalLanguage('en');
-    $movie->setTitle('Movie with id ' . $id);
-    $movie->setBackdropPath('/path/to/backdrop');
-    $movie->setPopularity(4.45);
-    $movie->setVoteCount(10);
-    $movie->setVideo(false);
-    $movie->setVoteAverage(4.4);
-    $movie->setBelongsToCollection(null);
-    $movie->setBudget(63000000);
-    $movie->setHomepage('www.test.com.br');
-    $movie->setImdbId('tt0137523');
-    $movie->setProductionCompanies([
-      new ProductionCompanie([
-        'id' => 1,
-        'logo_path' => '/path/to/logo',
-        'name' => 'Test Companie',
-        'origin_country' => 'US'
-      ])
-    ]);
-    $movie->setProductionCountries([
-      new ProductionCountry('US', 'United States of America')
-    ]);
-    $movie->setRevenue(100853753);
-    $movie->setRuntime(139);
-    $movie->setSpokenLanguages([
-      new SpokenLanguage('en', 'English')
-    ]);
-    $movie->setStatus('Released');
-    $movie->setTagline('How much can you know about yourself if you\'ve never been in a fight?');
+    $url = TMDbServiceProvider::getUrl('movie/' . $id);
+    $json = @file_get_contents($url);
 
-    return $movie->toArray();
+    if ($json !== false) {
+      $movie = Movie::getInstanceByJson($json);
+
+      return $movie ? $movie->toArray() : null;
+    }
+
+    return null;
   }
 
   public static function getMovieVideos($id)
   {
-    $video = new Video();
-    $video->setId(1);
-    $video->setIso6391('en');
-    $video->setIso31661('US');
-    $video->setKey('SUXWAEX2jlg');
-    $video->setName('Video test movie ' . $id);
-    $video->setSite('YouTube');
-    $video->setSize(720);
-    $video->setType('Test');
+    $url = TMDbServiceProvider::getUrl('movie/' . $id . '/videos');
+    $json = @file_get_contents($url);
 
-    return [$video->toArray()];
+    if ($json !== false) {
+      $videos = Video::getInstanceArrayByJson($json);
+
+      return array_map(
+        function ($object) {
+          return $object->toArray();
+        },
+        $videos
+      );
+    }
+
+    return null;
   }
 
   public static function getGenres($id = null)
