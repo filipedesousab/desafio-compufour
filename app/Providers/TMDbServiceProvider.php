@@ -8,7 +8,7 @@ use App\Entities\Video;
 use App\Entities\Genre;
 use App\Entities\ProductionCompanie;
 use App\Entities\ProductionCountry;
-use App\Entities\SpokenLanguages;
+use App\Entities\SpokenLanguage;
 
 class TMDbServiceProvider extends ServiceProvider
 {
@@ -109,7 +109,7 @@ class TMDbServiceProvider extends ServiceProvider
     $movie->setRevenue(100853753);
     $movie->setRuntime(139);
     $movie->setSpokenLanguages([
-      new SpokenLanguages('en', 'English')
+      new SpokenLanguage('en', 'English')
     ]);
     $movie->setStatus('Released');
     $movie->setTagline('How much can you know about yourself if you\'ve never been in a fight?');

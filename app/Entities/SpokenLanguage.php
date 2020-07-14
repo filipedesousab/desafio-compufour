@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class SpokenLanguages
+class SpokenLanguage
 {
   protected $iso6391;
   protected $name;
