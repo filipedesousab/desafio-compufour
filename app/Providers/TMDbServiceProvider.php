@@ -17,36 +17,26 @@ class TMDbServiceProvider extends ServiceProvider
 
   public static function getUpcoming($page)
   {
-    $movies = [];
+    $url = TMDbServiceProvider::getUrl('movie/top_rated', ['page' => $page]);
+    $json = @file_get_contents($url);
 
-    for ($i = 1; $i <= 20; $i++) {
-      $movie = new Movie();
-      $movie->setPosterPath('/path/to/poster');
-      $movie->setAdult(false);
-      $movie->setOverview('Lorem Ipsum is simply dummy text of the printing and typesetting industry...');
-      $movie->setReleaseDate('2020-07-12');
-      $movie->setGenres([
-        new Genre(1, 'aaa')
-      ]);
-      $movie->setId(1);
-      $movie->setOriginalTitle('Upcoming Page ' . $page . '. Test Movie with id ' . $i);
-      $movie->setOriginalLanguage('en');
-      $movie->setTitle('Upcoming Page ' . $page . '. Movie with id ' . $i);
-      $movie->setBackdropPath('/path/to/backdrop');
-      $movie->setPopularity(4.45);
-      $movie->setVoteCount(10);
-      $movie->setVideo(false);
-      $movie->setVoteAverage(4.4);
+    if ($json !== false) {
+      $movies = Movie::getInstanceArrayByJson($json);
 
-      $movies[] = $movie->toArray();
+      return array_map(
+        function ($object) {
+          return $object->toArray();
+        },
+        $movies
+      );
     }
 
-    return $movies;
+    return null;
   }
 
   public static function getTopRated($page)
   {
-    $url = TMDbServiceProvider::getUrl('movie/top_rated', ['page' => $page]);
+    $url = TMDbServiceProvider::getUrl('movie/upcoming', ['page' => $page]);
     $json = @file_get_contents($url);
 
     if ($json !== false) {
