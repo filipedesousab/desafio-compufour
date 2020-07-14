@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class ProductionCountries
+class ProductionCountry
 {
   protected $iso31661;
   protected $name;

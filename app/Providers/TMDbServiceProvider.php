@@ -7,7 +7,7 @@ use App\Entities\Movie;
 use App\Entities\Video;
 use App\Entities\Genre;
 use App\Entities\ProductionCompanie;
-use App\Entities\ProductionCountries;
+use App\Entities\ProductionCountry;
 use App\Entities\SpokenLanguages;
 
 class TMDbServiceProvider extends ServiceProvider
@@ -104,7 +104,7 @@ class TMDbServiceProvider extends ServiceProvider
       ])
     ]);
     $movie->setProductionCountries([
-      new ProductionCountries('US', 'United States of America')
+      new ProductionCountry('US', 'United States of America')
     ]);
     $movie->setRevenue(100853753);
     $movie->setRuntime(139);
