@@ -46,31 +46,21 @@ class TMDbServiceProvider extends ServiceProvider
 
   public static function getTopRated($page)
   {
-    $movies = [];
+    $url = TMDbServiceProvider::getUrl('movie/top_rated', ['page' => $page]);
+    $json = @file_get_contents($url);
 
-    for ($i = 1; $i <= 20; $i++) {
-      $movie = new Movie();
-      $movie->setPosterPath('/path/to/poster');
-      $movie->setAdult(false);
-      $movie->setOverview('Lorem Ipsum is simply dummy text of the printing and typesetting industry...');
-      $movie->setReleaseDate('2020-07-12');
-      $movie->setGenres([
-        new Genre(1)
-      ]);
-      $movie->setId(1);
-      $movie->setOriginalTitle('Top Rated Page ' . $page . '. Test Movie with id ' . $i);
-      $movie->setOriginalLanguage('en');
-      $movie->setTitle('Top Rated Page ' . $page . '. Movie with id ' . $i);
-      $movie->setBackdropPath('/path/to/backdrop');
-      $movie->setPopularity(4.45);
-      $movie->setVoteCount(10);
-      $movie->setVideo(false);
-      $movie->setVoteAverage(4.4);
+    if ($json !== false) {
+      $movies = Movie::getInstanceArrayByJson($json);
 
-      $movies[] = $movie->toArray();
+      return array_map(
+        function ($object) {
+          return $object->toArray();
+        },
+        $movies
+      );
     }
 
-    return $movies;
+    return null;
   }
 
   public static function getMovie($id)
@@ -136,11 +126,19 @@ class TMDbServiceProvider extends ServiceProvider
     );
   }
 
-  private static function getUrl($req)
+  private static function getUrl($req, $params = [])
   {
     $url = TMDbServiceProvider::$url;
     $apiKey = TMDbServiceProvider::$apiKey;
+    $paramsString = '';
 
-    return $url . $req . '?api_key=' . $apiKey . '&language=en-US';
+    array_walk(
+      $params,
+      function($val, $key) use (&$paramsString) {
+        $paramsString .= '&' . $key . '=' . $val;
+      }
+    );
+
+    return $url . $req . '?api_key=' . $apiKey . '&language=en-US' . $paramsString;
   }
 }

@@ -403,6 +403,42 @@ class Movie
     return false;
   }
 
+  public static function getInstanceArrayByJson($json)
+  {
+    $arr = json_decode($json, true);
+    $values = [];
+
+    if (is_array($arr['results'])) {
+      foreach ($arr['results'] as $movie) {
+        $genres = array_map(
+          function ($genre_id) {
+            return new Genre($genre_id);
+          },
+          $movie['genre_ids']
+        );
+
+        $movieInstance = new Movie();
+        $movieInstance->setPosterPath($movie['poster_path']);
+        $movieInstance->setAdult($movie['adult']);
+        $movieInstance->setOverview($movie['overview']);
+        $movieInstance->setReleaseDate($movie['release_date']);
+        $movieInstance->setGenres($genres);
+        $movieInstance->setId($movie['id']);
+        $movieInstance->setOriginalTitle($movie['original_title']);
+        $movieInstance->setOriginalLanguage($movie['original_language']);
+        $movieInstance->setTitle($movie['title']);
+        $movieInstance->setBackdropPath($movie['backdrop_path']);
+        $movieInstance->setPopularity($movie['popularity']);
+        $movieInstance->setVoteCount($movie['vote_count']);
+        $movieInstance->setVideo($movie['video']);
+        $movieInstance->setVoteAverage($movie['vote_average']);
+        array_push($values, $movieInstance);
+      }
+    }
+
+    return $values;
+  }
+
   public function toArray()
   {
     $arr = [
