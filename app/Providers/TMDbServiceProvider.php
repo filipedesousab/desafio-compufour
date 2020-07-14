@@ -6,9 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use App\Entities\Movie;
 use App\Entities\Video;
 use App\Entities\Genre;
-use App\Entities\ProductionCompanie;
-use App\Entities\ProductionCountry;
-use App\Entities\SpokenLanguage;
 
 class TMDbServiceProvider extends ServiceProvider
 {
