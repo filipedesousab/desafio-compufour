@@ -101,29 +101,33 @@ class TMDbServiceProvider extends ServiceProvider
     $url = TMDbServiceProvider::getUrl('genre/movie/list');
     $json = file_get_contents($url);
 
-    $genres = Genre::getInstanceArrayByJson($json);
+    if ($json !== false) {
+      $genres = Genre::getInstanceArrayByJson($json);
 
-    if (!empty($id)) {
-      $genreFiltered = array_filter(
-        $genres,
-        function ($genre) use ($id) {
-          return intval($genre->getId()) === intval($id);
-        }
+      if (!empty($id)) {
+        $genreFiltered = array_filter(
+          $genres,
+          function ($genre) use ($id) {
+            return intval($genre->getId()) === intval($id);
+          }
+        );
+
+        $genreFiltered = array_values($genreFiltered);
+
+        $genre = !empty($genreFiltered) ? $genreFiltered[0]->toArray() : null;
+
+        return $genre;
+      }
+
+      return array_map(
+        function ($object) {
+          return $object->toArray();
+        },
+        $genres
       );
-
-      $genreFiltered = array_values($genreFiltered);
-
-      $genre = !empty($genreFiltered) ? $genreFiltered[0]->toArray() : [];
-
-      return $genre;
     }
 
-    return array_map(
-      function ($object) {
-        return $object->toArray();
-      },
-      $genres
-    );
+    return null;
   }
 
   private static function getUrl($req, $params = [])
